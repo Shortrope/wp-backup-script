@@ -1,0 +1,24 @@
+#!/bin/bash
+# When restoring wordpress directory, use 'sudo tar ...' to preserve owner/group permissions
+# tar -A append
+
+wp_name=wpbaseline
+wp_dir=/var/www/html/wpbaseline
+backup_dir=./
+backup_filename=$wp_name-$(date "+%Y%m%d%H%M%S")
+
+
+# tar the WordPress directory
+tar -cf $backup_filename.tar $wp_dir
+
+# dump the mysql database
+mysqldump -u root -proot wpbaseline > $backup_filename.sql
+
+# append the sql file to the tarball
+tar -rf $backup_filename.tar $backup_filename.sql
+
+# remove the .sql file
+rm *.sql
+
+# compress the tarball
+gzip $backup_filename.tar

@@ -18,7 +18,7 @@ mysqldump -u root -proot wpbaseline > $backup_filename.sql
 tar -rf $backup_filename.tar $backup_filename.sql
 
 # remove the .sql file
-rm *.sql
+rm $backup_filename.sql
 
 # compress the tarball
 gzip $backup_filename.tar

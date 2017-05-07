@@ -1,6 +1,6 @@
 #!/bin/bash
 # When restoring wordpress directory, use 'sudo tar ...' to preserve owner/group permissions
-# tar -A append
+# tar -r append
 
 wp_name=wpbaseline
 wp_dir=/var/www/html/wpbaseline

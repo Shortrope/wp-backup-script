@@ -1,10 +1,7 @@
 #!/bin/bash
-# When restoring wordpress directory, use 'sudo tar ...' to preserve owner/group permissions
-# tar -r append
 
 wp_name=wpbaseline
-wp_dir=/var/www/html/wpbaseline
-backup_dir=./
+wp_dir=/var/www/html/$wp_name
 backup_filename=$wp_name-$(date "+%Y%m%d%H%M%S")
 
 
@@ -14,7 +11,7 @@ tar -cf $backup_filename.tar $wp_dir
 # dump the mysql database
 mysqldump -u root -proot wpbaseline > $backup_filename.sql
 
-# append the sql file to the tarball
+# append (-r) the sql file to the tarball
 tar -rf $backup_filename.tar $backup_filename.sql
 
 # remove the .sql file
@@ -22,3 +19,18 @@ rm $backup_filename.sql
 
 # compress the tarball
 gzip $backup_filename.tar
+
+
+
+
+# When extracting, use 'sudo tar ...' to preserve owner/group permissions
+# sudo tar -xzf bu_file_name.tar.gz -C / --exclude sql_dump_file.sql
+#
+# Restore the database
+# 1. create the database
+#		a. mysql -u username -p
+#		b. CREATE DATABASE db_name
+#		c. exit
+
+# 2. Import the .sql file
+#		a. mysql -u username -p db_name < sql_dump_file.sql
